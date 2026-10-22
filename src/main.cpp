@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
 
   std::ifstream file{filePath};
 
-  if (!file.is_open()) {
+  if (!file.good()) {
     std::cerr << "Failed to open file: " << filePath << std::endl;
 
     return 1;
