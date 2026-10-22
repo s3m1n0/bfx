@@ -5,7 +5,7 @@
 ### 1. Project foundation
 - [x] Set up project structure and CMake
 - [x] Set up GTest and CTest
-- [ ] Read Brainfuck source file
+- [x] Read Brainfuck source file
 - [ ] Handle file errors and invalid input
 
 ### 2. Frontend
