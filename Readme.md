@@ -4,7 +4,7 @@
 
 ### 1. Project foundation
 - [x] Set up project structure and CMake
-- [ ] Set up GTest and CTest
+- [x] Set up GTest and CTest
 - [ ] Read Brainfuck source file
 - [ ] Handle file errors and invalid input
 
