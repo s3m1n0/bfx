@@ -14,6 +14,9 @@ FetchContent_Declare(
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
-add_subdirectory(tests)
 
+add_library(bfx_lib src/lexer.cpp)
 add_executable(${PROJECT_NAME} src/main.cpp)
+target_link_libraries(${PROJECT_NAME} PRIVATE bfx_lib)
+
+add_subdirectory(tests)

@@ -5,8 +5,10 @@ add_executable(
   potential_test.cpp
 )
 target_link_libraries(
-  potential_test
-  GTest::gtest_main
+  potential_test 
+  PRIVATE
+    bfx_lib
+    GTest::gtest_main
 )
 
 include(GoogleTest)
