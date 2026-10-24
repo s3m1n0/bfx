@@ -13,7 +13,7 @@ enum class TokenInstructions {
   MovePointerToLeft,   // <
   JumpIfZero,          // [
   JumpIfNotZero,       // ]
-  Input,               //,
+  Input,               // ,
   Output               // .
 };
 
