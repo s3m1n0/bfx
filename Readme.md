@@ -52,7 +52,7 @@
 ## installation
 WIP
 
-## ussage 
+## usage 
 WIP
 
 ## License
