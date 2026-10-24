@@ -4,6 +4,8 @@
 #include <iterator>
 #include <string>
 
+#include "lexer.hpp"
+
 int main(int argc, char** argv) {
   if (argc < 2) {
     std::cerr << "please provide a file path\n";
@@ -23,7 +25,13 @@ int main(int argc, char** argv) {
   const std::string content{std::istreambuf_iterator<char>{file},
                             std::istreambuf_iterator<char>{}};
 
-  std::cout << content << std::endl;
+  std::vector<Token> source_tokens{parse_source_code(content)};
+  for (const auto& token : source_tokens) {
+    std::cout << std::format("instruction [{}] at source character [{}]\n",
+                             static_cast<int>(token.instruction),
+                             token.source_line);
+  }
+  std::cout << std::endl;
 
   return 0;
 }
