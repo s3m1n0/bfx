@@ -1,0 +1,18 @@
+#ifndef OPTIMIZE_H
+#define OPTIMIZE_H
+
+#include <stddef.h>
+
+#include <lexer.hpp>
+#include <vector>
+
+enum class IRInstructions { AddPointer, MovePointer };
+struct IRToken {
+  IRInstructions instruction;
+  size_t value;
+};
+
+std::vector<IRToken> parse_instruction_tokens(
+    const std::vector<TokenInstructions>& instructions);
+
+#endif
