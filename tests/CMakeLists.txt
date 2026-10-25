@@ -1,15 +1,16 @@
 enable_testing()
 
 add_executable(
-  lexer_test
-  lexer.cpp
+  tests
+  lexer_test.cpp
+  optimize_test.cpp
 )
 target_link_libraries(
-  lexer_test 
+  tests 
   PRIVATE
     bfx_lib
     GTest::gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(lexer_test)
+gtest_discover_tests(tests)
