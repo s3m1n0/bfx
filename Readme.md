@@ -9,8 +9,8 @@
 - [x] Handle file errors and invalid input
 
 ### 2. Frontend
-- [ ] Tokenize Brainfuck instructions
-- [ ] Ignore non-instruction characters
+- [x] Tokenize Brainfuck instructions
+- [x] Ignore non-instruction characters
 - [ ] Validate matching `[` and `]`
 - [ ] Add source location information for errors (optional)
 
