@@ -3,8 +3,9 @@
 
 #include <stddef.h>
 
-#include <lexer.hpp>
 #include <vector>
+
+#include "lexer.hpp"
 
 enum class IRInstructions {
   // basic instructions
