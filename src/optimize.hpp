@@ -24,12 +24,12 @@ enum class IRInstructions {
   MovePointerValue  // [->+<]
 };
 
-struct IRToken {
+struct IR {
   IRInstructions instruction;
   size_t value;
 };
 
-std::vector<IRToken> parse_instruction_tokens(
-    const std::vector<TokenInstructions>& instructions);
+std::vector<IR> parse_instruction_tokens(
+    const std::vector<Token>& instructions);
 
 #endif
