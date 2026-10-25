@@ -23,6 +23,6 @@ struct Token {
   size_t source_line;
 };
 
-std::vector<Token> parse_source_code(std::string source_code);
+std::vector<Token> parse_source_code(std::string_view source_code);
 
 #endif
