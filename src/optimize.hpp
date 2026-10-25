@@ -6,7 +6,24 @@
 #include <lexer.hpp>
 #include <vector>
 
-enum class IRInstructions { AddPointer, MovePointer };
+enum class IRInstructions {
+  // basic instructions
+  AddPointer,
+  MovePointer,
+
+  // io
+  Input,
+  Output,
+
+  // loop basics
+  LoopStart,
+  Loopend,
+
+  // optimization
+  ClearPointer,     // [-]
+  MovePointerValue  // [->+<]
+};
+
 struct IRToken {
   IRInstructions instruction;
   size_t value;
