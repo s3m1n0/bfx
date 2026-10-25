@@ -11,8 +11,8 @@
 ### 2. Frontend
 - [x] Tokenize Brainfuck instructions
 - [x] Ignore non-instruction characters
-- [ ] Validate matching `[` and `]`
-- [ ] Add source location information for errors (optional)
+- [x] Validate matching `[` and `]`
+- [x] Add source location information for errors (optional)
 
 ### 3. Intermediate Representation (IR)
 - [ ] Define the IR instruction format
