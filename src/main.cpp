@@ -26,12 +26,6 @@ int main(int argc, char** argv) {
                             std::istreambuf_iterator<char>{}};
 
   std::vector<Token> source_tokens{parse_source_code(content)};
-  for (const auto& token : source_tokens) {
-    std::cout << std::format("instruction [{}] at source character [{}]\n",
-                             static_cast<int>(token.instruction),
-                             token.source_line);
-  }
-  std::cout << std::endl;
 
   return 0;
 }
