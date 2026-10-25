@@ -12,12 +12,12 @@ int main(int argc, char** argv) {
     return 1;
   }
   // debug reason later switch to argv[1]
-  std::string filePath = argv[1];
+  std::string file_path = argv[1];
 
-  std::ifstream file{filePath};
+  std::ifstream file{file_path};
 
   if (!file.good()) {
-    std::cerr << "Failed to open file: " << filePath << std::endl;
+    std::cerr << "Failed to open file: " << file_path << std::endl;
 
     return 1;
   }
