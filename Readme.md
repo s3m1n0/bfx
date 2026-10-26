@@ -15,7 +15,7 @@
 - [x] Add source location information for errors (optional)
 
 ### 3. Intermediate Representation (IR)
-- [ ] Define the IR instruction format
+- [x] Define the IR instruction format
 - [ ] Generate IR from tokens
 - [ ] Print IR on demand (debug mode)
 - [ ] Add IR validation
