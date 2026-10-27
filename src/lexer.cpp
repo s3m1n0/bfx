@@ -26,7 +26,7 @@ std::vector<Token> parse_source_code(std::string_view source_code) {
         instruction = AddPointer;
         break;
       case '-':
-        instruction = SubstracktPointer;
+        instruction = SubstractPointer;
         break;
       case '>':
         instruction = MovePointerToRight;

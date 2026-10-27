@@ -18,7 +18,7 @@ enum class IRInstructions {
 
   // loop basics
   LoopStart,
-  Loopend,
+  LoopEnd,
 
   // optimization
   ClearPointer,     // [-]

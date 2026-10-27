@@ -33,7 +33,7 @@ std::vector<IR> parse_instruction_tokens(
       case (TokenInstructions::AddPointer):
         ir.push_back(IR{.instruction = IRInstructions::AddPointer, .value = 1});
         break;
-      case (TokenInstructions::SubstracktPointer):
+      case (TokenInstructions::SubstractPointer):
         ir.push_back(
             IR{.instruction = IRInstructions::AddPointer, .value = -1});
         break;
@@ -42,7 +42,7 @@ std::vector<IR> parse_instruction_tokens(
                         .value = token.jump_target});
         break;
       case (TokenInstructions::JumpIfNotZero):
-        ir.push_back(IR{.instruction = IRInstructions::Loopend,
+        ir.push_back(IR{.instruction = IRInstructions::LoopEnd,
                         .value = token.jump_target});
         break;
     }

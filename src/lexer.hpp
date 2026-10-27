@@ -8,7 +8,7 @@
 
 enum class TokenInstructions {
   AddPointer,          // +
-  SubstracktPointer,   // -
+  SubstractPointer,    // -
   MovePointerToRight,  // >
   MovePointerToLeft,   // <
   JumpIfZero,          // [
