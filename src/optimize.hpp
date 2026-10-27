@@ -27,10 +27,10 @@ enum class IRInstructions {
 
 struct IR {
   IRInstructions instruction;
-  size_t value;
+  int value;
 };
 
 std::vector<IR> parse_instruction_tokens(
     const std::vector<Token>& instructions);
-
+void optimize_instructions(std::vector<IR>& ir);
 #endif
