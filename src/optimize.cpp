@@ -1,10 +1,11 @@
+#include "optimize.hpp"
+
 #include <stddef.h>
 
 #include <optional>
 #include <vector>
 
 #include "lexer.hpp"
-#include "optimize.hpp"
 
 std::vector<IR> parse_instruction_tokens(
     const std::vector<Token>& instructions) {
@@ -19,7 +20,7 @@ std::vector<IR> parse_instruction_tokens(
         ir.push_back(IR{.instruction = IRInstructions::Input, .value = 0});
         break;
       case (TokenInstructions::Output):
-        ir.push_back(IR{.instruction = IRInstructions::Input, .value = 0});
+        ir.push_back(IR{.instruction = IRInstructions::Output, .value = 0});
         break;
       case (TokenInstructions::MovePointerToRight):
         ir.push_back(
@@ -38,12 +39,12 @@ std::vector<IR> parse_instruction_tokens(
             IR{.instruction = IRInstructions::AddPointer, .value = -1});
         break;
       case (TokenInstructions::JumpIfZero):
-        ir.push_back(
-            IR{.instruction = IRInstructions::LoopStart, .value = token.jump_target});
+        ir.push_back(IR{.instruction = IRInstructions::LoopStart,
+                        .value = token.jump_target});
         break;
       case (TokenInstructions::JumpIfNotZero):
-        ir.push_back(
-            IR{.instruction = IRInstructions::Loopend, .value = token.jump_target});
+        ir.push_back(IR{.instruction = IRInstructions::Loopend,
+                        .value = token.jump_target});
         break;
     }
   }
