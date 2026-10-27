@@ -30,7 +30,9 @@ struct IR {
   int value;
 };
 
+// raw translation, no optimization
 std::vector<IR> parse_instruction_tokens(
     const std::vector<Token>& instructions);
+// in place optimization on the input vector
 void optimize_instructions(std::vector<IR>& ir);
 #endif
