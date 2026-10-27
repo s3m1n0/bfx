@@ -5,6 +5,7 @@
 #include <string>
 
 #include "lexer.hpp"
+#include "optimize.hpp"
 
 int main(int argc, char** argv) {
   if (argc < 2) {
@@ -26,6 +27,8 @@ int main(int argc, char** argv) {
                             std::istreambuf_iterator<char>{}};
 
   std::vector<Token> source_tokens{parse_source_code(content)};
+  std::vector<IR> ir{parse_instruction_tokens(source_tokens)};
+  optimize_instructions(ir);
 
   return 0;
 }
