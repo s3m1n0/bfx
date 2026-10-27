@@ -31,8 +31,7 @@ std::vector<IR> parse_instruction_tokens(
             IR{.instruction = IRInstructions::MovePointer, .value = -1});
         break;
       case (TokenInstructions::AddPointer):
-        ir.push_back(
-            IR{.instruction = IRInstructions::AddPointer, .value = -1});
+        ir.push_back(IR{.instruction = IRInstructions::AddPointer, .value = 1});
         break;
       case (TokenInstructions::SubstracktPointer):
         ir.push_back(
@@ -50,3 +49,5 @@ std::vector<IR> parse_instruction_tokens(
   }
   return ir;
 }
+
+void optimize_instructions(std::vector<IR>& ir) {}
