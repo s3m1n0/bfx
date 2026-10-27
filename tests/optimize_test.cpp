@@ -4,25 +4,92 @@
 
 #include <vector>
 
-namespace {
+// Test parsing of Input and Output instructions
+TEST(ParseInstructionTokensTest, ParsesInputAndOutput) {
+  std::vector<Token> tokens = {
+      {.instruction = TokenInstructions::Input, .jump_target = 0},
+      {.instruction = TokenInstructions::Output, .jump_target = 0}};
 
-Token MakeToken(TokenInstructions instruction, size_t jump_target = 0) {
-  return Token{
-      .instruction = instruction, .jump_target = jump_target, .source_line = 0};
+  std::vector<IR> ir = parse_instruction_tokens(tokens);
+
+  ASSERT_EQ(ir.size(), 2);
+  EXPECT_EQ(ir[0].instruction, IRInstructions::Input);
+  EXPECT_EQ(ir[0].value, 0);
+
+  EXPECT_EQ(ir[1].instruction, IRInstructions::Output);
+  EXPECT_EQ(ir[1].value, 0);
 }
 
-}  // namespace
+// Test pointer movement instructions (Right and Left)
+TEST(ParseInstructionTokensTest, ParsesPointerMovements) {
+  std::vector<Token> tokens = {
+      {.instruction = TokenInstructions::MovePointerToRight, .jump_target = 0},
+      {.instruction = TokenInstructions::MovePointerToLeft, .jump_target = 0}};
+
+  std::vector<IR> ir = parse_instruction_tokens(tokens);
+
+  ASSERT_EQ(ir.size(), 2);
+  EXPECT_EQ(ir[0].instruction, IRInstructions::MovePointer);
+  EXPECT_EQ(ir[0].value, 1);
+
+  EXPECT_EQ(ir[1].instruction, IRInstructions::MovePointer);
+  EXPECT_EQ(ir[1].value, -1);
+}
+
+// Test pointer arithmetic instructions
+TEST(ParseInstructionTokensTest, ParsesPointerArithmetic) {
+  std::vector<Token> tokens = {
+      {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
+      {.instruction = TokenInstructions::SubstracktPointer, .jump_target = 0}};
+
+  std::vector<IR> ir = parse_instruction_tokens(tokens);
+
+  ASSERT_EQ(ir.size(), 2);
+  EXPECT_EQ(ir[0].instruction, IRInstructions::AddPointer);
+  EXPECT_EQ(ir[0].value, 1);
+
+  EXPECT_EQ(ir[1].instruction, IRInstructions::AddPointer);
+  EXPECT_EQ(ir[1].value, -1);
+}
+
+// Test jump/loop instructions with targets
+TEST(ParseInstructionTokensTest, ParsesJumpsAndLoops) {
+  std::vector<Token> tokens = {
+      {.instruction = TokenInstructions::JumpIfZero, .jump_target = 5},
+      {.instruction = TokenInstructions::JumpIfNotZero, .jump_target = 2}};
+
+  std::vector<IR> ir = parse_instruction_tokens(tokens);
+
+  ASSERT_EQ(ir.size(), 2);
+  EXPECT_EQ(ir[0].instruction, IRInstructions::LoopStart);
+  EXPECT_EQ(ir[0].value, 5);
+
+  EXPECT_EQ(ir[1].instruction, IRInstructions::Loopend);
+  EXPECT_EQ(ir[1].value, 2);
+}
+
+// Test handling of an empty token list
+TEST(ParseInstructionTokensTest, HandlesEmptyTokenList) {
+  std::vector<Token> tokens = {};
+  std::vector<IR> ir = parse_instruction_tokens(tokens);
+
+  EXPECT_TRUE(ir.empty());
+}
 
 TEST(OptimizeTest, EmptyTokenListProducesEmptyIR) {
-  EXPECT_TRUE(parse_instruction_tokens({}).empty());
+  std::vector<IR> ir = parse_instruction_tokens({});
+  optimize_instructions(ir);
+  EXPECT_TRUE(ir.empty());
 }
 
 TEST(OptimizeTest, CombinesConsecutiveIncrements) {
-  const std::vector<Token> tokens{MakeToken(TokenInstructions::AddPointer),
-                                  MakeToken(TokenInstructions::AddPointer),
-                                  MakeToken(TokenInstructions::AddPointer)};
+  const std::vector<Token> tokens{
+      {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
+      {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
+      {.instruction = TokenInstructions::AddPointer, .jump_target = 0}};
 
-  const auto ir = parse_instruction_tokens(tokens);
+  auto ir = parse_instruction_tokens(tokens);
+  optimize_instructions(ir);
 
   ASSERT_EQ(ir.size(), 1);
   EXPECT_EQ(ir[0].instruction, IRInstructions::AddPointer);
@@ -31,10 +98,11 @@ TEST(OptimizeTest, CombinesConsecutiveIncrements) {
 
 TEST(OptimizeTest, CombinesConsecutiveRightPointerMoves) {
   const std::vector<Token> tokens{
-      MakeToken(TokenInstructions::MovePointerToRight),
-      MakeToken(TokenInstructions::MovePointerToRight)};
+      {.instruction = TokenInstructions::MovePointerToRight, .jump_target = 0},
+      {.instruction = TokenInstructions::MovePointerToRight, .jump_target = 0}};
 
-  const auto ir = parse_instruction_tokens(tokens);
+  auto ir = parse_instruction_tokens(tokens);
+  optimize_instructions(ir);
 
   ASSERT_EQ(ir.size(), 1);
   EXPECT_EQ(ir[0].instruction, IRInstructions::MovePointer);
@@ -43,12 +111,13 @@ TEST(OptimizeTest, CombinesConsecutiveRightPointerMoves) {
 
 TEST(OptimizeTest, DifferentOperationsEndACombinedRun) {
   const std::vector<Token> tokens{
-      MakeToken(TokenInstructions::AddPointer),
-      MakeToken(TokenInstructions::AddPointer),
-      MakeToken(TokenInstructions::MovePointerToRight),
-      MakeToken(TokenInstructions::AddPointer)};
+      {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
+      {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
+      {.instruction = TokenInstructions::MovePointerToRight, .jump_target = 0},
+      {.instruction = TokenInstructions::AddPointer, .jump_target = 0}};
 
-  const auto ir = parse_instruction_tokens(tokens);
+  auto ir = parse_instruction_tokens(tokens);
+  optimize_instructions(ir);
 
   ASSERT_EQ(ir.size(), 3);
   EXPECT_EQ(ir[0].instruction, IRInstructions::AddPointer);
@@ -61,11 +130,13 @@ TEST(OptimizeTest, DifferentOperationsEndACombinedRun) {
 
 TEST(OptimizeTest, PreservesIOInstructionsAndLoopTargets) {
   const std::vector<Token> tokens{
-      MakeToken(TokenInstructions::JumpIfZero, 3),
-      MakeToken(TokenInstructions::Input), MakeToken(TokenInstructions::Output),
-      MakeToken(TokenInstructions::JumpIfNotZero, 0)};
+      {.instruction = TokenInstructions::JumpIfZero, .jump_target = 3},
+      {.instruction = TokenInstructions::Input, .jump_target = 0},
+      {.instruction = TokenInstructions::Output, .jump_target = 0},
+      {.instruction = TokenInstructions::JumpIfNotZero, .jump_target = 0}};
 
-  const auto ir = parse_instruction_tokens(tokens);
+  auto ir = parse_instruction_tokens(tokens);
+  optimize_instructions(ir);
 
   ASSERT_EQ(ir.size(), 4);
   EXPECT_EQ(ir[0].instruction, IRInstructions::LoopStart);
@@ -77,11 +148,13 @@ TEST(OptimizeTest, PreservesIOInstructionsAndLoopTargets) {
 }
 
 TEST(OptimizeTest, DoesNotCombineIncrementsAcrossIO) {
-  const std::vector<Token> tokens{MakeToken(TokenInstructions::AddPointer),
-                                  MakeToken(TokenInstructions::Output),
-                                  MakeToken(TokenInstructions::AddPointer)};
+  const std::vector<Token> tokens{
+      {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
+      {.instruction = TokenInstructions::Output, .jump_target = 0},
+      {.instruction = TokenInstructions::AddPointer, .jump_target = 0}};
 
-  const auto ir = parse_instruction_tokens(tokens);
+  auto ir = parse_instruction_tokens(tokens);
+  optimize_instructions(ir);
 
   ASSERT_EQ(ir.size(), 3);
   EXPECT_EQ(ir[0].instruction, IRInstructions::AddPointer);
