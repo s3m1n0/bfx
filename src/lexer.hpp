@@ -19,7 +19,7 @@ enum class TokenInstructions {
 
 struct Token {
   TokenInstructions instruction;
-  size_t jump_target;
+  int jump_target;
   size_t source_line;
 };
 
