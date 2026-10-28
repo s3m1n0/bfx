@@ -24,7 +24,7 @@ void print_ir(const IR& ir) {
       std::cout << "LoopStart";
       break;
 
-    case IRInstructions::Loopend:
+    case IRInstructions::LoopEnd:
       std::cout << "LoopEnd";
       break;
 

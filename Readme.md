@@ -16,12 +16,12 @@
 
 ### 3. Intermediate Representation (IR)
 - [x] Define the IR instruction format
-- [ ] Generate IR from tokens
+- [x] Generate IR from tokens
 - [ ] Print IR on demand (debug mode)
-- [ ] Add IR validation
+- [x] Add IR validation
 - [ ] Optimize IR
-  - [ ] Combine consecutive identical operations
-  - [ ] Combine consecutive pointer movements
+  - [x] Combine consecutive identical operations
+  - [x] Combine consecutive pointer movements
   - [ ] Detect simple loop patterns (later)
 
 ### 4. Interpreter / Runtime

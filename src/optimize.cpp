@@ -50,18 +50,19 @@ std::vector<IR> parse_instruction_tokens(
   return ir;
 }
 
-int wrap_add(int value1, int value2, int wrap_min_boundary,
-             int wrap_max_boundary) {
-  const int range = wrap_max_boundary - wrap_min_boundary + 1;
-  int result = (value1 + value2 - wrap_min_boundary) % range;
+// could alter code behaviour. MOVE TO RUNTIME
+// int wrap_add(int value1, int value2, int wrap_min_boundary,
+//              int wrap_max_boundary) {
+//   const int range = wrap_max_boundary - wrap_min_boundary + 1;
+//   int result = (value1 + value2 - wrap_min_boundary) % range;
 
-  if (result < 0) result += range;
+//   if (result < 0) result += range;
 
-  return result + wrap_min_boundary;
-}
+//   return result + wrap_min_boundary;
+// }
 
 void optimize_instructions(std::vector<IR>& ir) {
-  if (ir.size() < 0) {
+  if (ir.empty()) {
     return;
   }
   std::vector<IR> optimized_ir{ir[0]};
@@ -72,7 +73,7 @@ void optimize_instructions(std::vector<IR>& ir) {
       case IRInstructions::AddPointer: {
         if (optimized_ir.back().instruction == current_ir.instruction) {
           optimized_ir.back().value =
-              wrap_add(optimized_ir.back().value, current_ir.value, 0, 255);
+              optimized_ir.back().value + current_ir.value;
         } else {
           optimized_ir.push_back(current_ir);
         }
@@ -81,12 +82,16 @@ void optimize_instructions(std::vector<IR>& ir) {
       case IRInstructions::MovePointer: {
         if (optimized_ir.back().instruction == current_ir.instruction) {
           optimized_ir.back().value =
-              wrap_add(optimized_ir.back().value, current_ir.value, 0, 30000);
+              optimized_ir.back().value + current_ir.value;
         } else {
           optimized_ir.push_back(current_ir);
         }
         break;
       }
+      default:
+        optimized_ir.push_back(current_ir);
+        break;
     }
   }
+  ir = std::move(optimized_ir);
 }
