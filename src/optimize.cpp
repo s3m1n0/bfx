@@ -50,13 +50,14 @@ std::vector<IR> parse_instruction_tokens(
   return ir;
 }
 
-// AddPointer wraps at 255, pointer movement at the cell boundaries 0 - 30k
-int combine_instruction_value(int value1, int value2, int wrap_min_boundary,
-                              int wrap_max_boundary) {
-  int result = value1 + value2;
-  if (result > wrap_max_boundary) result = wrap_min_boundary;
-  if (result < wrap_min_boundary) result = wrap_max_boundary;
-  return result;
+int wrap_add(int value1, int value2, int wrap_min_boundary,
+             int wrap_max_boundary) {
+  const int range = wrap_max_boundary - wrap_min_boundary + 1;
+  int result = (value1 + value2 - wrap_min_boundary) % range;
+
+  if (result < 0) result += range;
+
+  return result + wrap_min_boundary;
 }
 
 void optimize_instructions(std::vector<IR>& ir) {
@@ -70,8 +71,8 @@ void optimize_instructions(std::vector<IR>& ir) {
     switch (current_ir.instruction) {
       case IRInstructions::AddPointer: {
         if (optimized_ir.back().instruction == current_ir.instruction) {
-          optimized_ir.back().value = combine_instruction_value(
-              optimized_ir.back().value, current_ir.value, 0, 255, 255);
+          optimized_ir.back().value =
+              wrap_add(optimized_ir.back().value, current_ir.value, 0, 255);
         } else {
           optimized_ir.push_back(current_ir);
         }
@@ -79,8 +80,8 @@ void optimize_instructions(std::vector<IR>& ir) {
       }
       case IRInstructions::MovePointer: {
         if (optimized_ir.back().instruction == current_ir.instruction) {
-          optimized_ir.back().value = combine_instruction_value(
-              optimized_ir.back().value, current_ir.value, 0, 30000, 30000);
+          optimized_ir.back().value =
+              wrap_add(optimized_ir.back().value, current_ir.value, 0, 30000);
         } else {
           optimized_ir.push_back(current_ir);
         }
