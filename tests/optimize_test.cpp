@@ -40,7 +40,7 @@ TEST(ParseInstructionTokensTest, ParsesPointerMovements) {
 TEST(ParseInstructionTokensTest, ParsesPointerArithmetic) {
   std::vector<Token> tokens = {
       {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
-      {.instruction = TokenInstructions::SubstracktPointer, .jump_target = 0}};
+      {.instruction = TokenInstructions::SubstractPointer, .jump_target = 0}};
 
   std::vector<IR> ir = parse_instruction_tokens(tokens);
 
@@ -64,7 +64,7 @@ TEST(ParseInstructionTokensTest, ParsesJumpsAndLoops) {
   EXPECT_EQ(ir[0].instruction, IRInstructions::LoopStart);
   EXPECT_EQ(ir[0].value, 5);
 
-  EXPECT_EQ(ir[1].instruction, IRInstructions::Loopend);
+  EXPECT_EQ(ir[1].instruction, IRInstructions::LoopEnd);
   EXPECT_EQ(ir[1].value, 2);
 }
 
@@ -143,7 +143,7 @@ TEST(OptimizeTest, PreservesIOInstructionsAndLoopTargets) {
   EXPECT_EQ(ir[0].value, 3);
   EXPECT_EQ(ir[1].instruction, IRInstructions::Input);
   EXPECT_EQ(ir[2].instruction, IRInstructions::Output);
-  EXPECT_EQ(ir[3].instruction, IRInstructions::Loopend);
+  EXPECT_EQ(ir[3].instruction, IRInstructions::LoopEnd);
   EXPECT_EQ(ir[3].value, 0);
 }
 

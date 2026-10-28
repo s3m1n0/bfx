@@ -14,7 +14,7 @@ TEST(LexerTest, ParsesEveryInstruction) {
   ASSERT_EQ(tokens.size(), 6);
 
   EXPECT_EQ(tokens[0].instruction, AddPointer);
-  EXPECT_EQ(tokens[1].instruction, SubstracktPointer);
+  EXPECT_EQ(tokens[1].instruction, SubstractPointer);
   EXPECT_EQ(tokens[2].instruction, MovePointerToLeft);
   EXPECT_EQ(tokens[3].instruction, MovePointerToRight);
   EXPECT_EQ(tokens[4].instruction, Input);
@@ -29,8 +29,8 @@ TEST(LexerTest, ParsesMultipleInstructions) {
   EXPECT_EQ(tokens[0].instruction, AddPointer);
   EXPECT_EQ(tokens[1].instruction, AddPointer);
   EXPECT_EQ(tokens[2].instruction, MovePointerToRight);
-  EXPECT_EQ(tokens[3].instruction, SubstracktPointer);
-  EXPECT_EQ(tokens[4].instruction, SubstracktPointer);
+  EXPECT_EQ(tokens[3].instruction, SubstractPointer);
+  EXPECT_EQ(tokens[4].instruction, SubstractPointer);
   EXPECT_EQ(tokens[5].instruction, MovePointerToLeft);
 }
 
@@ -122,7 +122,7 @@ TEST(LexerTest, MatchesNestedLoops) {
   EXPECT_EQ(tokens[3].instruction, JumpIfNotZero);
   EXPECT_EQ(tokens[3].jump_target, 1);
 
-  EXPECT_EQ(tokens[4].instruction, SubstracktPointer);
+  EXPECT_EQ(tokens[4].instruction, SubstractPointer);
 
   // Outer loop closing
   EXPECT_EQ(tokens[5].instruction, JumpIfNotZero);
