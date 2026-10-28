@@ -52,10 +52,10 @@ std::vector<IR> parse_instruction_tokens(
 
 // AddPointer wraps at 255, pointer movement at the cell boundaries 0 - 30k
 int combine_instruction_value(int value1, int value2, int wrap_min_boundary,
-                              int wrap_max_boundary, int wrap_min_snapback) {
+                              int wrap_max_boundary) {
   int result = value1 + value2;
-  if (result > wrap_max_boundary) result = 0;
-  if (result < wrap_min_boundary) result = wrap_min_snapback;
+  if (result > wrap_max_boundary) result = wrap_min_boundary;
+  if (result < wrap_min_boundary) result = wrap_max_boundary;
   return result;
 }
 
