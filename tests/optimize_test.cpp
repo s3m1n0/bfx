@@ -163,3 +163,47 @@ TEST(OptimizeTest, DoesNotCombineIncrementsAcrossIO) {
   EXPECT_EQ(ir[2].instruction, IRInstructions::AddPointer);
   EXPECT_EQ(ir[2].value, 1);
 }
+
+TEST(OptimizeTest, CombinesInstructionsInsideLoops) {
+  const std::vector<Token> tokens{
+      {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
+      {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
+      {.instruction = TokenInstructions::JumpIfZero, .jump_target = 9},
+      {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
+      {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
+      {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
+      {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
+      {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
+      {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
+      {.instruction = TokenInstructions::JumpIfNotZero, .jump_target = 2},
+  };
+
+  auto ir = parse_instruction_tokens(tokens);
+  optimize_instructions(ir);
+
+  ASSERT_EQ(ir.size(), 4);
+  EXPECT_EQ(ir[0].instruction, IRInstructions::AddPointer);
+  EXPECT_EQ(ir[0].value, 1);
+  EXPECT_EQ(ir[1].instruction, IRInstructions::LoopStart);
+  EXPECT_EQ(ir[2].instruction, IRInstructions::AddPointer);
+  EXPECT_EQ(ir[2].value, 6);
+  EXPECT_EQ(ir[3].instruction, IRInstructions::LoopEnd);
+}
+
+TEST(OptimizeTest, RecognizeClearPointerOptimization) {
+  const std::vector<Token> tokens{
+      {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
+      {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
+      {.instruction = TokenInstructions::JumpIfZero, .jump_target = 9},
+      {.instruction = TokenInstructions::SubstractPointer, .jump_target = 0},
+      {.instruction = TokenInstructions::JumpIfNotZero, .jump_target = 2},
+  };
+
+  auto ir = parse_instruction_tokens(tokens);
+  optimize_instructions(ir);
+
+  ASSERT_EQ(ir.size(), 4);
+  EXPECT_EQ(ir[0].instruction, IRInstructions::AddPointer);
+  EXPECT_EQ(ir[0].value, 2);
+  EXPECT_EQ(ir[1].instruction, IRInstructions::ClearPointer);
+}
