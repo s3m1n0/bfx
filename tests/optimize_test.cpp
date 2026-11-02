@@ -194,7 +194,7 @@ TEST(OptimizeTest, RecognizeClearPointerOptimization) {
   const std::vector<Token> tokens{
       {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
       {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
-      {.instruction = TokenInstructions::JumpIfZero, .jump_target = 9},
+      {.instruction = TokenInstructions::JumpIfZero, .jump_target = 4},
       {.instruction = TokenInstructions::SubstractPointer, .jump_target = 0},
       {.instruction = TokenInstructions::JumpIfNotZero, .jump_target = 2},
   };
