@@ -96,4 +96,4 @@ void optimize_instructions(std::vector<IR>& ir) {
   ir = std::move(optimized_ir);
 }
 
-std::vector<IR> optimize_loop(const std::vector<IR>& ir, size_t& index) {}
+std::vector<IR> optimize_loop(const std::vector<IR>& ir) { return ir; }
