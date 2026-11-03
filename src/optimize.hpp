@@ -35,6 +35,6 @@ std::vector<IR> parse_instruction_tokens(
     const std::vector<Token>& instructions);
 // in place optimization on the input vector
 void optimize_instructions(std::vector<IR>& ir);
-int wrap_add(int value1, int value2, int wrap_min_boundary,
-             int wrap_max_boundary);
+std::vector<IR> optimize_loop(const std::vector<IR>& ir, size_t& index);
+
 #endif

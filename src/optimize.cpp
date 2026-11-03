@@ -3,6 +3,7 @@
 #include <stddef.h>
 
 #include <optional>
+#include <span>
 #include <vector>
 
 #include "lexer.hpp"
@@ -66,6 +67,7 @@ void optimize_instructions(std::vector<IR>& ir) {
     return;
   }
   std::vector<IR> optimized_ir{ir[0]};
+  std::vector<size_t> loop_stack{0};
   optimized_ir.reserve(ir.size());
   for (size_t i{1}; i < ir.size(); i++) {
     IR current_ir{ir[i]};
@@ -80,11 +82,12 @@ void optimize_instructions(std::vector<IR>& ir) {
         }
         break;
       }
-      case IRInstructions::LoopStart: {
-        std::vector<IR> loop_stack{ir[i]};
-
+      case IRInstructions::LoopStart:
+        loop_stack.push_back(i);
         break;
-      }
+      case IRInstructions::LoopEnd:
+        size_t opening{loop_stack.back()};
+        break;
       default:
         optimized_ir.push_back(current_ir);
         break;
