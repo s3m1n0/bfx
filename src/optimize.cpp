@@ -70,15 +70,7 @@ void optimize_instructions(std::vector<IR>& ir) {
   for (size_t i{1}; i < ir.size(); i++) {
     IR current_ir{ir[i]};
     switch (current_ir.instruction) {
-      case IRInstructions::AddPointer: {
-        if (optimized_ir.back().instruction == current_ir.instruction) {
-          optimized_ir.back().value =
-              optimized_ir.back().value + current_ir.value;
-        } else {
-          optimized_ir.push_back(current_ir);
-        }
-        break;
-      }
+      case IRInstructions::AddPointer:
       case IRInstructions::MovePointer: {
         if (optimized_ir.back().instruction == current_ir.instruction) {
           optimized_ir.back().value =
@@ -88,6 +80,11 @@ void optimize_instructions(std::vector<IR>& ir) {
         }
         break;
       }
+      case IRInstructions::LoopStart: {
+        std::vector<IR> loop_stack{ir[i]};
+
+        break;
+      }
       default:
         optimized_ir.push_back(current_ir);
         break;
@@ -95,3 +92,5 @@ void optimize_instructions(std::vector<IR>& ir) {
   }
   ir = std::move(optimized_ir);
 }
+
+std::vector<IR> optimize_loop(const std::vector<IR>& ir, size_t& index) {}
