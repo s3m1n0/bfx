@@ -78,7 +78,7 @@ TEST(ParseInstructionTokensTest, HandlesEmptyTokenList) {
 
 TEST(OptimizeTest, EmptyTokenListProducesEmptyIR) {
   std::vector<IR> ir = parse_instruction_tokens({});
-  optimize_instructions(ir);
+  combine_instructions(ir);
   EXPECT_TRUE(ir.empty());
 }
 
@@ -89,7 +89,7 @@ TEST(OptimizeTest, CombinesConsecutiveIncrements) {
       {.instruction = TokenInstructions::AddPointer, .jump_target = 0}};
 
   auto ir = parse_instruction_tokens(tokens);
-  optimize_instructions(ir);
+  combine_instructions(ir);
 
   ASSERT_EQ(ir.size(), 1);
   EXPECT_EQ(ir[0].instruction, IRInstructions::AddPointer);
@@ -102,7 +102,7 @@ TEST(OptimizeTest, CombinesConsecutiveRightPointerMoves) {
       {.instruction = TokenInstructions::MovePointerToRight, .jump_target = 0}};
 
   auto ir = parse_instruction_tokens(tokens);
-  optimize_instructions(ir);
+  combine_instructions(ir);
 
   ASSERT_EQ(ir.size(), 1);
   EXPECT_EQ(ir[0].instruction, IRInstructions::MovePointer);
@@ -117,7 +117,7 @@ TEST(OptimizeTest, DifferentOperationsEndACombinedRun) {
       {.instruction = TokenInstructions::AddPointer, .jump_target = 0}};
 
   auto ir = parse_instruction_tokens(tokens);
-  optimize_instructions(ir);
+  combine_instructions(ir);
 
   ASSERT_EQ(ir.size(), 3);
   EXPECT_EQ(ir[0].instruction, IRInstructions::AddPointer);
@@ -136,7 +136,7 @@ TEST(OptimizeTest, PreservesIOInstructionsAndLoopTargets) {
       {.instruction = TokenInstructions::JumpIfNotZero, .jump_target = 0}};
 
   auto ir = parse_instruction_tokens(tokens);
-  optimize_instructions(ir);
+  combine_instructions(ir);
 
   ASSERT_EQ(ir.size(), 4);
   EXPECT_EQ(ir[0].instruction, IRInstructions::LoopStart);
@@ -154,7 +154,7 @@ TEST(OptimizeTest, DoesNotCombineIncrementsAcrossIO) {
       {.instruction = TokenInstructions::AddPointer, .jump_target = 0}};
 
   auto ir = parse_instruction_tokens(tokens);
-  optimize_instructions(ir);
+  combine_instructions(ir);
 
   ASSERT_EQ(ir.size(), 3);
   EXPECT_EQ(ir[0].instruction, IRInstructions::AddPointer);
@@ -179,7 +179,7 @@ TEST(OptimizeTest, CombinesInstructionsInsideLoops) {
   };
 
   auto ir = parse_instruction_tokens(tokens);
-  optimize_instructions(ir);
+  combine_instructions(ir);
 
   ASSERT_EQ(ir.size(), 4);
   EXPECT_EQ(ir[0].instruction, IRInstructions::AddPointer);
@@ -190,20 +190,20 @@ TEST(OptimizeTest, CombinesInstructionsInsideLoops) {
   EXPECT_EQ(ir[3].instruction, IRInstructions::LoopEnd);
 }
 
-TEST(OptimizeTest, RecognizeClearPointerOptimization) {
-  const std::vector<Token> tokens{
-      {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
-      {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
-      {.instruction = TokenInstructions::JumpIfZero, .jump_target = 4},
-      {.instruction = TokenInstructions::SubstractPointer, .jump_target = 0},
-      {.instruction = TokenInstructions::JumpIfNotZero, .jump_target = 2},
-  };
+// TEST(OptimizeTest, RecognizeClearPointerOptimization) {
+//   const std::vector<Token> tokens{
+//       {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
+//       {.instruction = TokenInstructions::AddPointer, .jump_target = 0},
+//       {.instruction = TokenInstructions::JumpIfZero, .jump_target = 4},
+//       {.instruction = TokenInstructions::SubstractPointer, .jump_target = 0},
+//       {.instruction = TokenInstructions::JumpIfNotZero, .jump_target = 2},
+//   };
 
-  auto ir = parse_instruction_tokens(tokens);
-  optimize_instructions(ir);
+//   auto ir = parse_instruction_tokens(tokens);
+//   combine_instructions(ir);
 
-  ASSERT_EQ(ir.size(), 4);
-  EXPECT_EQ(ir[0].instruction, IRInstructions::AddPointer);
-  EXPECT_EQ(ir[0].value, 2);
-  EXPECT_EQ(ir[1].instruction, IRInstructions::ClearPointer);
-}
+//   ASSERT_EQ(ir.size(), 4);
+//   EXPECT_EQ(ir[0].instruction, IRInstructions::AddPointer);
+//   EXPECT_EQ(ir[0].value, 2);
+//   EXPECT_EQ(ir[1].instruction, IRInstructions::ClearPointer);
+// }

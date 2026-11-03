@@ -62,7 +62,7 @@ std::vector<IR> parse_instruction_tokens(
 //   return result + wrap_min_boundary;
 // }
 
-void optimize_instructions(std::vector<IR>& ir) {
+void combine_instructions(std::vector<IR>& ir) {
   if (ir.empty()) {
     return;
   }
@@ -82,12 +82,6 @@ void optimize_instructions(std::vector<IR>& ir) {
         }
         break;
       }
-      case IRInstructions::LoopStart:
-        loop_stack.push_back(i);
-        break;
-      case IRInstructions::LoopEnd:
-        // size_t opening{loop_stack.back()};
-        break;
       default:
         optimized_ir.push_back(current_ir);
         break;
@@ -95,5 +89,3 @@ void optimize_instructions(std::vector<IR>& ir) {
   }
   ir = std::move(optimized_ir);
 }
-
-std::vector<IR> optimize_loop(const std::vector<IR>& ir) { return ir; }

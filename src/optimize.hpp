@@ -34,7 +34,6 @@ struct IR {
 std::vector<IR> parse_instruction_tokens(
     const std::vector<Token>& instructions);
 // in place optimization on the input vector
-void optimize_instructions(std::vector<IR>& ir);
-std::vector<IR> optimize_loop(const std::vector<IR>& ir, size_t& index);
+void combine_instructions(std::vector<IR>& ir);
 
 #endif
