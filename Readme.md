@@ -1,59 +1,31 @@
 # bfx
 
-## things to add:
-
-### 1. Project foundation
-- [x] Set up project structure and CMake
-- [x] Set up GTest and CTest
-- [x] Read Brainfuck source file
-- [x] Handle file errors and invalid input
-
-### 2. Frontend
-- [x] Tokenize Brainfuck instructions
-- [x] Ignore non-instruction characters
-- [x] Validate matching `[` and `]`
-- [x] Add source location information for errors (optional)
-
-### 3. Intermediate Representation (IR)
-- [x] Define the IR instruction format
-- [x] Generate IR from tokens
-- [ ] Print IR on demand (debug mode)
-- [x] Add IR validation
-- [ ] Optimize IR
-  - [x] Combine consecutive identical operations
-  - [x] Combine consecutive pointer movements
-  - [ ] Detect simple loop patterns (later)
-
-### 4. Interpreter / Runtime
-- [ ] Implement tape (memory cells)
-- [ ] Implement data pointer
-- [ ] Implement instruction execution
-- [ ] Implement input (`,`) and output (`.`)
-- [ ] Define tape boundary and cell overflow behavior
-- [ ] Add interpreter tests
-
-### 5. JIT compiler
-- [ ] Choose code generation strategy
-- [ ] Generate native machine code from IR
-- [ ] Allocate executable memory safely
-- [ ] Handle instruction cache requirements
-- [ ] Execute generated code
-- [ ] Add JIT tests
-- [ ] Compare JIT output against interpreter output
-
-### 6. CLI and polish
-- [ ] Add command-line argument parsing
-- [ ] Add interpreter/JIT execution modes
-- [ ] Add optional IR output
-- [ ] Add clear error messages
-- [ ] Test with known Brainfuck programs
-- [ ] Add a benchmark comparing interpreter and JIT
-
 ## installation
-WIP
+
+### Build from source
+
+Requirements:
+
+- C++20 compatible compiler
+- CMake 3.28 or later
+- Make
+
+Clone the repository and build the project:
+
+1. `git clone https://github.com/s3m1n0/bfx.git`
+2. `cd bfx`
+3. `mkdir build`
+4. `cd build`
+5. `cmake ..`
+6. `make`
 
 ## usage 
-WIP
+
+just point bfx to the brainfuck source code and enjoy :)                          
+
+```bash
+./bfx file_to_parse.bf
+```
 
 ## License
 Copyright (C) 2026 Semino
