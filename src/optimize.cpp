@@ -63,29 +63,52 @@ std::vector<IR> parse_instruction_tokens(
 // }
 
 void combine_instructions(std::vector<IR>& ir) {
-  if (ir.empty()) {
-    return;
-  }
-  std::vector<IR> optimized_ir{ir[0]};
-  std::vector<size_t> loop_stack{0};
+  std::vector<IR> optimized_ir;
+  std::vector<size_t> loop_stack;
+
   optimized_ir.reserve(ir.size());
-  for (size_t i{1}; i < ir.size(); i++) {
-    IR current_ir{ir[i]};
+
+  for (const IR& current_ir : ir) {
     switch (current_ir.instruction) {
       case IRInstructions::AddPointer:
       case IRInstructions::MovePointer: {
-        if (optimized_ir.back().instruction == current_ir.instruction) {
-          optimized_ir.back().value =
-              optimized_ir.back().value + current_ir.value;
+        if (!optimized_ir.empty() &&
+            optimized_ir.back().instruction == current_ir.instruction) {
+          optimized_ir.back().value += current_ir.value;
         } else {
           optimized_ir.push_back(current_ir);
         }
         break;
       }
+
+      case IRInstructions::LoopStart: {
+        size_t loop_start = optimized_ir.size();
+
+        loop_stack.push_back(loop_start);
+
+        optimized_ir.push_back(
+            IR{.instruction = IRInstructions::LoopStart, .value = 0});
+        break;
+      }
+
+      case IRInstructions::LoopEnd: {
+        size_t loop_start = loop_stack.back();
+        size_t loop_end = optimized_ir.size();
+
+        optimized_ir.push_back(IR{.instruction = IRInstructions::LoopEnd,
+                                  .value = static_cast<int>(loop_start)});
+
+        optimized_ir[loop_start].value = static_cast<int>(loop_end);
+
+        loop_stack.pop_back();
+        break;
+      }
+
       default:
         optimized_ir.push_back(current_ir);
         break;
     }
   }
+
   ir = std::move(optimized_ir);
 }
