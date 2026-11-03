@@ -86,7 +86,7 @@ void optimize_instructions(std::vector<IR>& ir) {
         loop_stack.push_back(i);
         break;
       case IRInstructions::LoopEnd:
-        size_t opening{loop_stack.back()};
+        // size_t opening{loop_stack.back()};
         break;
       default:
         optimized_ir.push_back(current_ir);
