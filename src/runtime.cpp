@@ -16,7 +16,7 @@ void simple_runtime(const std::vector<IR>& ir) {
         pointer += instruction.value;
         break;
       case IRInstructions::Output:
-        std::cout << static_cast<char>(memory[pointer]) << "\n";
+        std::cout << static_cast<char>(memory[pointer]);
         break;
       case IRInstructions::Input:
         std::cin >> memory[pointer];
@@ -31,4 +31,5 @@ void simple_runtime(const std::vector<IR>& ir) {
       }
     }
   }
+  std::cout << std::endl;
 }
