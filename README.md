@@ -12,12 +12,10 @@ Requirements:
 
 Clone the repository and build the project:
 
-1. `git clone https://github.com/s3m1n0/bfx.git`
-2. `cd bfx`
-3. `mkdir build`
-4. `cd build`
-5. `cmake ..`
-6. `make`
+
+1. cmake -S . -B build
+2. cmake --build build
+
 
 ## usage 
 
