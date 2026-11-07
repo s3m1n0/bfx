@@ -1,6 +1,7 @@
 #include "../lexer.hpp"
 
 #include <format>
+#include <fstream>
 #include <iostream>
 #include <optional>
 #include <string>
@@ -14,13 +15,15 @@ void report_fatal_error(std::string_view error_message,
   std::exit(1);
 }
 
-std::vector<Token> parse_source_code(std::string_view source_code) {
+std::vector<Token> parse_source_file(std::ifstream& source_file) {
   using enum TokenInstructions;
   std::vector<Token> output{};
   std::vector<size_t> loop_stack{};
-  for (size_t i{0}; i < source_code.length(); i++) {
+
+  char c;
+  int i{0};
+  while (source_file.get(c)) {
     std::optional<TokenInstructions> instruction;
-    const char c = source_code[i];
     switch (c) {
       case '+':
         instruction = AddPointer;
@@ -80,6 +83,7 @@ std::vector<Token> parse_source_code(std::string_view source_code) {
                              .jump_target = 0,
                              .source_line = i});
     }
+    i++;
   }
 
   if (!loop_stack.empty())

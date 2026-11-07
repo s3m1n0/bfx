@@ -1,4 +1,3 @@
-#include <format>
 #include <fstream>
 #include <iostream>
 #include <iterator>
@@ -24,10 +23,7 @@ int main(int argc, char** argv) {
     return 1;
   }
 
-  const std::string content{std::istreambuf_iterator<char>{file},
-                            std::istreambuf_iterator<char>{}};
-
-  std::vector<Token> source_tokens = parse_source_code(content);
+  std::vector<Token> source_tokens = parse_source_file(file);
   Optimization ir(source_tokens);
   SimpleRuntime runtime{};
   runtime.run(ir);
