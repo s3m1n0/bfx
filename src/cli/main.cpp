@@ -27,9 +27,8 @@ int main(int argc, char** argv) {
   const std::string content{std::istreambuf_iterator<char>{file},
                             std::istreambuf_iterator<char>{}};
 
-  std::vector<Token> source_tokens{parse_source_code(content)};
-  std::vector<IR> ir{parse_instruction_tokens(source_tokens)};
-  combine_instructions(ir);
+  std::vector<Token> source_tokens = parse_source_code(content);
+  Optimization ir(source_tokens);
   SimpleRuntime runtime{};
   runtime.run(ir);
 

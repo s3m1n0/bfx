@@ -11,13 +11,13 @@ runtime no JIT compilation yet
 
 class RuntimeInterface {
  protected:
-  virtual void run(const std::vector<IR>& ir) = 0;
+  virtual void run(const Optimization& ir) = 0;
 };
 
 class SimpleRuntime : public RuntimeInterface {
  public:
   SimpleRuntime() : m_pointer{0} {};
-  void run(const std::vector<IR>& ir);
+  void run(const Optimization& ir);
 
  private:
   std::array<int, 30'000> m_memory{};

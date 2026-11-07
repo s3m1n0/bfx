@@ -8,8 +8,7 @@
 
 #include "../lexer.hpp"
 
-std::vector<IR> parse_instruction_tokens(
-    const std::vector<Token>& instructions) {
+Optimization::Optimization(const std::vector<Token>& instructions) {
   std::vector<IR> ir{};
   std::vector<Token> instruction_stack{};
 
@@ -48,7 +47,7 @@ std::vector<IR> parse_instruction_tokens(
         break;
     }
   }
-  return ir;
+  m_ir = std::move(ir);
 }
 
 // could alter code behaviour. MOVE TO RUNTIME
@@ -62,13 +61,13 @@ std::vector<IR> parse_instruction_tokens(
 //   return result + wrap_min_boundary;
 // }
 
-void combine_instructions(std::vector<IR>& ir) {
+void Optimization::combine_instructions() {
   std::vector<IR> optimized_ir;
   std::vector<size_t> loop_stack;
 
-  optimized_ir.reserve(ir.size());
+  optimized_ir.reserve(m_ir.size());
 
-  for (const IR& current_ir : ir) {
+  for (const IR& current_ir : m_ir) {
     switch (current_ir.instruction) {
       case IRInstructions::AddPointer:
       case IRInstructions::MovePointer: {
@@ -110,5 +109,5 @@ void combine_instructions(std::vector<IR>& ir) {
     }
   }
 
-  ir = std::move(optimized_ir);
+  m_ir = std::move(optimized_ir);
 }

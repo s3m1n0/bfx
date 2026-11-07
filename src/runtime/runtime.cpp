@@ -2,9 +2,10 @@
 
 #include <iostream>
 
-void SimpleRuntime::run(const std::vector<IR>& ir) {
-  for (int i{0}; i < ir.size(); i++) {
-    IR instruction{ir[i]};
+void SimpleRuntime::run(const Optimization& ir) {
+  const auto& instructions = ir.get_ir();
+  for (int i{0}; i < instructions.size(); i++) {
+    IR instruction{instructions[i]};
     switch (instruction.instruction) {
       case IRInstructions::AddPointer:
         m_memory[m_pointer] = (m_memory[m_pointer] + instruction.value) % 256;
