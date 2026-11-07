@@ -30,7 +30,8 @@ int main(int argc, char** argv) {
   std::vector<Token> source_tokens{parse_source_code(content)};
   std::vector<IR> ir{parse_instruction_tokens(source_tokens)};
   combine_instructions(ir);
-  simple_runtime(ir);
+  SimpleRuntime runtime{};
+  runtime.run(ir);
 
   return 0;
 }
