@@ -9,12 +9,12 @@ runtime no JIT compilation yet
 
 #include "optimize.hpp"
 
-class RunTimeInterface {
+class RuntimeInterface {
  protected:
   virtual void run(const std::vector<IR>& ir) = 0;
 };
 
-class SimpleRuntime : public RunTimeInterface {
+class SimpleRuntime : public RuntimeInterface {
  public:
   SimpleRuntime() : m_pointer{0} {};
   void run(const std::vector<IR>& ir);
