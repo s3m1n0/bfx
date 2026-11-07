@@ -25,6 +25,7 @@ int main(int argc, char** argv) {
 
   std::vector<Token> source_tokens = parse_source_file(file);
   Optimization ir(source_tokens);
+  ir.combine_instructions();
   SimpleRuntime runtime{};
   runtime.run(ir);
 
