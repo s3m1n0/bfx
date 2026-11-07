@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "lexer.hpp"
-#include "runtime.hpp"
 
 enum class IRInstructions {
   // basic instructions
@@ -34,7 +33,7 @@ struct IR {
 class Optimization {
  public:
   const std::vector<IR>& get_ir() const { return m_ir; }
-  Optimization(const std::vector<Token>& instructions) {};
+  Optimization(const std::vector<Token>& instructions);
   void combine_instructions();
 
  private:

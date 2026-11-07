@@ -8,6 +8,7 @@ runtime no JIT compilation yet
 #include <vector>
 
 #include "optimize.hpp"
+class Optimization;
 
 class RuntimeInterface {
  protected:
