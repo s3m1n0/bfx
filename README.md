@@ -13,8 +13,10 @@ Requirements:
 Clone the repository and build the project:
 
 
-1. cmake -S . -B build
-2. cmake --build build
+```bash
+cmake -S . -B build
+cmake --build build
+````
 
 
 ## usage 
