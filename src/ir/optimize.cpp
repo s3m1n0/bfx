@@ -1,4 +1,4 @@
-#include "optimize.hpp"
+#include "../optimize.hpp"
 
 #include <stddef.h>
 
@@ -6,7 +6,7 @@
 #include <span>
 #include <vector>
 
-#include "lexer.hpp"
+#include "../lexer.hpp"
 
 std::vector<IR> parse_instruction_tokens(
     const std::vector<Token>& instructions) {

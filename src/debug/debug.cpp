@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "optimize.hpp"
+#include "../optimize.hpp"
 
 void print_ir(const IR& ir) {
   switch (ir.instruction) {

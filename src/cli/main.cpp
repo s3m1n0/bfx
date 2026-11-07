@@ -4,9 +4,9 @@
 #include <iterator>
 #include <string>
 
-#include "lexer.hpp"
-#include "optimize.hpp"
-#include "runtime.hpp"
+#include "../lexer.hpp"
+#include "../optimize.hpp"
+#include "../runtime.hpp"
 
 int main(int argc, char** argv) {
   if (argc < 2) {
