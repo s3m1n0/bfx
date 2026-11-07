@@ -37,3 +37,31 @@ void print_ir(const IR& ir) {
       break;
   }
 }
+
+void print_token(const Token& token) {
+  switch (token.instruction) {
+    case TokenInstructions::AddPointer:
+      std::cout << "AddPointer" << " at character" << token.source_line;
+      break;
+
+    case TokenInstructions::SubstractPointer:
+      std::cout << "SubstractPointer" << " at character" << token.source_line;
+      break;
+
+    case TokenInstructions::Input:
+      std::cout << "Input" << " at character" << token.source_line;
+      break;
+
+    case TokenInstructions::Output:
+      std::cout << "Output" << " at character" << token.source_line;
+      break;
+
+    case TokenInstructions::JumpIfZero:
+      std::cout << "LoopStart" << " at character" << token.source_line;
+      break;
+
+    case TokenInstructions::JumpIfNotZero:
+      std::cout << "LoopEnd" << " at character" << token.source_line;
+      break;
+  }
+}
