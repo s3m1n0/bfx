@@ -21,7 +21,7 @@ std::vector<Token> parse_source_file(std::ifstream& source_file) {
   std::vector<size_t> loop_stack{};
 
   char c;
-  int i{0};
+  int i{1};
   while (source_file.get(c)) {
     std::optional<TokenInstructions> instruction;
     switch (c) {
