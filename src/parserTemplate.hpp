@@ -1,14 +1,16 @@
-
 template <typename Type, typename Element, typename Return>
-class parserTemplate {
- private:
-  Type m_data;
-  std::size_t pointer;
-  virtual Element peek() = 0;
+class Parser {
+ protected:
+  Type& m_data;
+  std::size_t m_pointer = 0;
+
+  virtual Element peek() const = 0;
   virtual Element consume() = 0;
 
  public:
-  parserTemplate(/* args */);
-  ~parserTemplate();
-  Return parse();
+  explicit Parser(Type& data) : m_data(data) {}
+
+  virtual ~Parser() = default;
+
+  virtual Return parse() = 0;
 };
