@@ -111,3 +111,5 @@ void Optimization::combine_instructions() {
 
   m_ir = std::move(optimized_ir);
 }
+
+void Optimization::recognize_loops_patterns() {}
